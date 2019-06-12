@@ -65,8 +65,10 @@ def caminho_inicial(matriz_cidades):
         custo = custo + matriz_cidades[i,i+1]
         if i+1 == matriz_cidades.shape[0]-1:
            custo = custo + matriz_cidades[matriz_cidades.shape[0]-1,0]
+    return custo
 
-print(caminho_inicial(entrada('tsp10t3.txt')))
+
+print(caminho_inicial(entrada('datasets/tsp10t3.txt')))
 
 
 
