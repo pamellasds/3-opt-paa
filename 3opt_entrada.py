@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 import numpy as np
+import random
 
 def entrada(nome_arq):
     #Abrir o Arquivo
@@ -59,7 +61,7 @@ def entrada(nome_arq):
     return cidades
 
 
-def caminho_inicial(matriz_cidades):
+def custo_caminho_inicial(matriz_cidades):
     custo = 0
     for i in range(0, matriz_cidades.shape[0]-1):
         custo = custo + matriz_cidades[i,i+1]
@@ -68,7 +70,19 @@ def caminho_inicial(matriz_cidades):
     return custo
 
 
-print(caminho_inicial(entrada('datasets/tsp10t3.txt')))
+def escolher_arestas_iniciais(matriz_cidades):
+    vertice_x_y_z=[]
+    vertice_a_b_c = random.sample(range(0,matriz_cidades.shape[0]-1), 3) #escolhendo três (n) vértices aleatórios
+    [vertice_x_y_z.append((vertice_a_b_c[i])+1) for i in range(0,3)] #encontrando os vertices próximos (n+1) para formar aresta
+    return vertice_a_b_c, vertice_x_y_z 
+
+
+def gerar_combinacoes():
+    
+
+
+print(custo_caminho_inicial(entrada('datasets/tsp10t3.txt')))
+print(escolher_arestas_iniciais(entrada('datasets/tsp10t3.txt')))
 
 
 
