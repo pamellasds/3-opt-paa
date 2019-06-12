@@ -1,17 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[225]:
-
+import numpy as np
 
 def entrada(nome_arq):
-    import numpy as np
     #Abrir o Arquivo
     arq = open(nome_arq, 'r')
     
     #Recupera o tipo e o tamanho do grafo
     texto = arq.readline()
-    split = texto.split()http://localhost:8888/notebooks/3opt.ipynb#
+    split = texto.split()#http://localhost:8888/notebooks/3opt.ipynb#
     N = int(split[0].split('=')[1])
     tipo = int(split[1].split('=')[1])
     
@@ -37,11 +32,6 @@ def entrada(nome_arq):
         for i in range(0, N):
             texto = arq.readline()
             split = texto.split()
-            #cidades[i,i] = 0
-            
-            #print(split)
-            #print(vetX)
-            #print(vetY)
             
             vetX[i] = float(split[0])
             vetY[i] = float(split[1])   
@@ -67,32 +57,18 @@ def entrada(nome_arq):
     arq.close()
 
     return cidades
-    
-    
-    
-    
-    
 
 
-# In[228]:
+def caminho_inicial(matriz_cidades):
+    custo = 0
+    for i in range(0, matriz_cidades.shape[0]-1):
+        custo = custo + matriz_cidades[i,i+1]
+        if i+1 == matriz_cidades.shape[0]-1:
+           custo = custo + matriz_cidades[matriz_cidades.shape[0]-1,0]
+
+print(caminho_inicial(entrada('tsp10t3.txt')))
 
 
-#entrada('Tsp29t1.txt')
-
-
-# In[229]:
-
-
-#entrada('tsp10t3.txt')
-
-
-# In[230]:
-
-
-entrada('Tsp280t2.txt')
-
-
-# In[ ]:
 
 
 
