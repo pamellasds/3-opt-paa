@@ -157,9 +157,7 @@ def gerar_combinacoes_(matriz_cidades, arestas):
     [arestas[2][0], arestas[0][1]], 
     [arestas[1][0], arestas[2][1]]])
 
-    return distancia, arestas_sub   
-    
-    
+    return distancia, arestas_sub           
 
 def escolher_melhor_troca(distancia, arestas_sub):
     return min(distancia), arestas_sub[distancia.index(min(distancia))]
@@ -184,6 +182,11 @@ while(i <= len(matriz_dist[0])/5):
     print("Arestas a serem trocadas: {}".format(arestas), custo_ini)
     distancia, combinacoes = gerar_combinacoes_(matriz_dist, arestas)
     melhor_troca, arestas_sub = escolher_melhor_troca(distancia, combinacoes)
+
+    if melhor_troca > custo_ini:
+        melhor_troca = custo_ini
+        arestas_sub = arestas
+
     print("Arestas com melhor custo: {}".format(arestas_sub), melhor_troca)
 
     custo = custo - custo_ini + melhor_troca
