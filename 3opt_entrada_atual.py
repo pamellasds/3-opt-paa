@@ -60,12 +60,10 @@ def entrada(nome_arq):
     return cidades
 
     
-matriz_dist = entrada('datasets/tsp12t2.txt')
-
-
 def caminho_inicial(matriz):
     caminho = np.array(range(0, len(matriz)))
-    caminho = np.append(caminho, 0)
+    random.shuffle(caminho)
+    caminho = np.append(caminho, caminho[0])
     #print (caminho)
     return caminho
     
@@ -95,15 +93,13 @@ def kopt(matriz_distancias):
     custo_ciclo = custo_ver(ciclo, matriz_distancias)
     
     #Define o Numero de Tentativas
-    k_max = max(5, int(n/10))
+    k_max = max(50, int(n/10))
     
     #Repete para o numero de Tentativas
     for Tentativas in range(0, k_max):
 
-        print(Tentativas)
-
-
         #Seleciona 3 vertices nao adjacentes a,b e c
+
 
         #Converte ciclo para list e acha A e o Index de A
         copia_ciclo = ciclo.tolist()
@@ -111,8 +107,8 @@ def kopt(matriz_distancias):
         a = random.choice(range(0, n))
         i_a = copia_ciclo.index(a)
 
-        print(a, i_a)
-        print(copia_ciclo)
+        #print(a, i_a)
+        #print(copia_ciclo)
 
         #Acha as cidades adjacentes de A
         suc_a = copia_ciclo[(i_a + 1)%len(copia_ciclo)]
@@ -124,7 +120,7 @@ def kopt(matriz_distancias):
         copia_ciclo.pop(copia_ciclo.index(ant_a))
         copia_ciclo.pop(copia_ciclo.index(a))
 
-        print(copia_ciclo)
+        #print(copia_ciclo)
 
 
         #Achar o b e os adjacentes dele
@@ -132,7 +128,7 @@ def kopt(matriz_distancias):
         b = random.choice(copia_ciclo)
         i_b = copia_ciclo.index(b)
 
-        print(b, i_b)
+        #print(b, i_b)
 
         suc_b = copia_ciclo[(i_b + 1)%len(copia_ciclo)]
         ant_b = copia_ciclo[(i_b -1)%len(copia_ciclo)]
@@ -143,10 +139,21 @@ def kopt(matriz_distancias):
         copia_ciclo.pop(copia_ciclo.index(ant_b))
         copia_ciclo.pop(copia_ciclo.index(b))
 
-        print(copia_ciclo)
+        #print(copia_ciclo)
 
         c = random.choice(copia_ciclo)
-        print(c)     
+        #print(c)  
+        i_c = ciclo.tolist().index(c)
+
+
+        verti = [i_a, i_b,i_c]
+        v1 = min(verti)
+        verti.pop(verti.index(v1))
+        v2 = min(verti)
+        verti.pop(verti.index(v2))
+        v3 = min(verti)
+
+        a, b, c = ciclo[v1], ciclo[v2], ciclo[v3]
 
         
         #Caclular os outros  outros 3 vertices x,y e z
@@ -154,23 +161,43 @@ def kopt(matriz_distancias):
         i_a = ciclo.tolist().index(a)
         i_b = ciclo.tolist().index(b)
         i_c = ciclo.tolist().index(c)
+        i_x = (i_a+1)%n
+        i_y = (i_b+1)%n
+        i_z = (i_c+1)%n
+
 
         x = ciclo[(i_a+1)%n]
         y = ciclo[(i_b+1)%n]
         z = ciclo[(i_c+1)%n]
 
-        #print(a,b,c,x,y,z)
+        #print(a,x,b,y,c,z)
+        #print(a,b,c,d,e,f)
 
         #PLotar Arestas AX BY CZ
 
         #Faz as Permutacoes
-        c1 = [a,x,b,c,y,z,a]
-        c2 = [a,b,x,y,c,z,a]
-        c3 = [a,b,x,c,y,z,a]
-        c4 = [a,y,c,x,b,z,a]
-        c5 = [a,y,c,b,x,z,a]
-        c6 = [a,c,y,x,b,z,a]
-        c7 = [a,c,y,b,x,z,a]
+
+        #print(ciclo[:i_a + 1].shape)
+        #print(ciclo[i_x : i_b + 1].shape)
+        #print(ciclo[i_c : i_y -1 : -1].shape)
+        #print(ciclo[i_z:].shape)
+ 
+        copia_ciclo = ciclo.tolist()
+
+        c1 = copia_ciclo[:i_a+1] + copia_ciclo[i_x : i_b+1] + copia_ciclo[i_c : i_y -1 : -1] + copia_ciclo[i_z:] # 2-opt
+
+        c2 = copia_ciclo[:i_a+1] + copia_ciclo[i_b:i_x-1:-1] + copia_ciclo[i_y:i_c+1] + copia_ciclo[i_z:] # 2-opt
+
+        c3 = copia_ciclo[:i_a+1] + copia_ciclo[i_b:i_x-1:-1] + copia_ciclo[i_c:i_y-1:-1] + copia_ciclo[i_z:] # 3-opt
+
+        c4 = copia_ciclo[:i_a+1] + copia_ciclo[i_y:i_c+1]    + copia_ciclo[i_x:i_b+1]    + copia_ciclo[i_z:] # 3-opt
+
+        c5 = copia_ciclo[:i_a+1] + copia_ciclo[i_y:i_c+1]    + copia_ciclo[i_b:i_x-1:-1] + copia_ciclo[i_z:] # 3-opt
+
+        c6 = copia_ciclo[:i_a+1] + copia_ciclo[i_c:i_y-1:-1] + copia_ciclo[i_x:i_b+1]    + copia_ciclo[i_z:] # 3-opt
+
+        c7 = copia_ciclo[:i_a+1] + copia_ciclo[i_c:i_y-1:-1] + copia_ciclo[i_b:i_x-1:-1] + copia_ciclo[i_z:] # 2-opt
+
 
         #Acha a menor combinacao e menor custo
         permutacoes = [c1,c2,c3,c4,c5,c6,c7]
@@ -185,14 +212,23 @@ def kopt(matriz_distancias):
             custo_ciclo = minimo
 
         #Plot da NOVA 
-        print(ciclo)
+        #print(ciclo)
+        #print(Tentativas)
     return ciclo, custo_ciclo           
 
             
-        
+
+
+matriz_dist = entrada('datasets/Tsp26t2.txt')   
 print(kopt(matriz_dist))
-        
-        
+matriz_dist = entrada('datasets/Tsp58t1.txt')   
+print(kopt(matriz_dist))       
+matriz_dist = entrada('datasets/Tsp280t2.txt')   
+print(kopt(matriz_dist))     
+matriz_dist = entrada('datasets/Tsp535t2.txt')   
+print(kopt(matriz_dist))     
+matriz_dist = entrada('datasets/Tsp1379t2.txt')   
+print(kopt(matriz_dist))     
 
 
         
