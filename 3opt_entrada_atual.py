@@ -14,7 +14,7 @@ def entrada(nome_arq):
     N = int(split[0].split('=')[1])
     tipo = int(split[1].split('=')[1])
     
-    cidades = np.empty((N,N), dtype = int)
+    cidades = np.empty((N,N), dtype = float)
     
     #Para Tipo = 1
     if tipo == 1:
@@ -46,6 +46,8 @@ def entrada(nome_arq):
                 x = vetX[i] - vetX[j]
                 y = vetY[i] - vetY[j]
                 cidades[i,j] = ((x**2) + (y**2))**(1/2)
+                
+                
     
     
     #Para tipo = 3
@@ -76,6 +78,10 @@ def custo_ver(caminho, matriz):
         m = caminho[i]
         n = caminho[i+1]
         soma = soma + matriz[m,n]
+        #print(caminho)
+        #print(matriz)
+        #print(m,n)
+        #print(matriz[m,n])
     return soma
 
 
@@ -231,7 +237,16 @@ matriz_dist = entrada('datasets/Tsp1379t2.txt')
 print(kopt(matriz_dist))     
 
 
-        
+print("Fim")
+#matriz_dist = entrada('datasets/tsp10t3.txt')   
+#print(kopt(matriz_dist)) 
+#for i in range(0, 10000):
+#    matriz_dist = entrada('datasets/tsp10t3.txt')   
+#    prin = (kopt(matriz_dist)[1])  
+#    if(prin <=142):
+#        print(prin)
+#print("fim")
+#print(matriz_dist)     
 
  
         

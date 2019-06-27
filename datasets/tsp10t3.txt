@@ -1,4 +1,4 @@
-N=10  Tipo=3  (Matriz não-Simétrica)    
+﻿N=10  Tipo=3  (Matriz não-Simétrica)    
 0   13  25   48  48  38  48  35  15   13
 13  0   23   48  48  28  28  25  45   17
 25  13  0    72  72  48  18  24  24   23
