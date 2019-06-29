@@ -3,6 +3,8 @@ import numpy as np
 import random
 import operator
 import itertools
+from sklearn import manifold 
+import matplotlib.pyplot as plt
 
 def entrada(nome_arq):
     #Abrir o Arquivo
@@ -59,7 +61,7 @@ def entrada(nome_arq):
                 cidades[i,j] = int(split[j])
     arq.close()
 
-    return cidades
+    return cidades, N
 
     
 def caminho_inicial(matriz):
@@ -222,19 +224,82 @@ def kopt(matriz_distancias):
         #print(Tentativas)
     return ciclo, custo_ciclo           
 
+def location(cidades, N):
+    mds =  manifold.MDS(2, dissimilarity='euclidean')
+    coords = mds.fit_transform(cidades)
+    x_vertice, y_vertice = coords[:, 0], coords[:, 1]
+    x_aresta, y_aresta = coords[:, 0], coords[:, 1];
+    cities = []
+
+    for i in range(N):
+        cities.append(i)
+    
+    return x_vertice, y_vertice, x_aresta, y_aresta, cities            
+
+def plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N):
+    
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.scatter(x_vertice, y_vertice, color ='black')
+    for i in range(N): 
+        ax.annotate(cities[i], (x_vertice[i], y_vertice[i]))
+        plt.arrow(x_aresta[i-1], y_aresta[i-1], (x_aresta[i] - x_aresta[i-1]), (y_aresta[i] - y_aresta[i-1]), color ='red', length_includes_head=True)
+    plt.show()
+    
+def plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo):
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.scatter(x_vertice, y_vertice, color ='black') 
+ 
+    for i in range(N):  
+        ax.annotate(cities[i], (x_vertice[i], y_vertice[i])) 
+        
+        if i == 0: 
+            plt.arrow(x_aresta[ciclo[N - 1]], y_aresta[ciclo[N - 1]], (x_aresta[ciclo[i]] - x_aresta[ciclo[N - 1]]), (y_aresta[ciclo[i]] - y_aresta[ciclo[N - 1]]), color ='blue', length_includes_head=True)
+        else: 
+            plt.arrow(x_aresta[ciclo[i - 1]], y_aresta[ciclo[i - 1]], (x_aresta[ciclo[i]] - x_aresta[ciclo[i - 1]]), (y_aresta[ciclo[i]] - y_aresta[ciclo[i - 1]]), color ='blue', length_includes_head=True)
+    plt.show()    
             
 
 
-matriz_dist = entrada('datasets/Tsp26t2.txt')   
-print(kopt(matriz_dist))
-matriz_dist = entrada('datasets/Tsp58t1.txt')   
-print(kopt(matriz_dist))       
-matriz_dist = entrada('datasets/Tsp280t2.txt')   
-print(kopt(matriz_dist))     
-matriz_dist = entrada('datasets/Tsp535t2.txt')   
-print(kopt(matriz_dist))     
-matriz_dist = entrada('datasets/Tsp1379t2.txt')   
-print(kopt(matriz_dist))     
+#Tsp26t2.txt
+matriz_dist, N = entrada('datasets/Tsp26t2.txt') 
+ciclo, custo_ciclo = kopt(matriz_dist)
+print(ciclo, custo_ciclo)
+x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+
+#Tsp58t1.txt
+matriz_dist, N = entrada('datasets/Tsp58t1.txt')   
+ciclo, custo_ciclo = kopt(matriz_dist)
+print(ciclo, custo_ciclo)    
+x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+
+#Tsp280t2.txt
+#Algumas vezes o plot não dar certo, em outras dar. Vou verificar pq só esse dar certo em alguns caso
+matriz_dist, N = entrada('datasets/Tsp280t2.txt')   
+ciclo, custo_ciclo = kopt(matriz_dist)
+print(ciclo, custo_ciclo)   
+x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+
+#Tsp535t2.txt
+matriz_dist, N = entrada('datasets/Tsp535t2.txt')   
+ciclo, custo_ciclo = kopt(matriz_dist)
+print(ciclo, custo_ciclo)    
+x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo) 
+    
+#tsp10t3.txt
+matriz_dist, N = entrada('datasets/tsp10t3.txt')   
+ciclo, custo_ciclo = kopt(matriz_dist)
+print(ciclo, custo_ciclo) 
+x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
 
 print("Fim")
