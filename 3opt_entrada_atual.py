@@ -3,8 +3,11 @@ import numpy as np
 import random
 import operator
 import itertools
+import time
+import pandas as pd
 from sklearn import manifold 
 import matplotlib.pyplot as plt
+
 
 def entrada(nome_arq):
     #Abrir o Arquivo
@@ -260,58 +263,85 @@ def plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, cic
             
 
 
+#Etapa de Geração dos Saidas Medias
+dadosPlanilhas = []
+Arquivos = ['datasets/Tsp26t2.txt', 'datasets/Tsp58t1.txt', 'datasets/Tsp280t2.txt', 'datasets/Tsp535t2.txt', 'datasets/Tsp1379t2.txt']
+
+for arq in Arquivos:
+    matriz_dist, N = entrada(arq)
+    tempos_de_execucao = []
+    resultados_obtidos = []
+    caminhos_obtidos = []
+    melhor_caminho = []
+    melhor_resultado = 0
+    for i in range(0, 100):
+        start = time.time()
+        ciclo, custo_ciclo = kopt(matriz_dist)
+        end = time.time()
+        if(i == 0):
+            melhor_resultado = custo_ciclo
+            melhor_caminho = ciclo
+        if(custo_ciclo < melhor_resultado):
+            melhor_resultado = custo_ciclo
+            melhor_caminho = ciclo
+        tempos_de_execucao.append(end-start)
+        resultados_obtidos.append(custo_ciclo)
+        caminhos_obtidos.append(ciclo)
+    d = {'Resultado': resultados_obtidos, 'Tempo': tempos_de_execucao, 'Caminho': caminhos_obtidos}
+    df = pd.DataFrame(data=d)
+    dadosPlanilhas.append(df)
+    print("Fim do Arquivo: ", arq)
+
+
 #Tsp26t2.txt
-matriz_dist, N = entrada('datasets/Tsp26t2.txt') 
-ciclo, custo_ciclo = kopt(matriz_dist)
-print(ciclo, custo_ciclo)
-x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
-plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
-plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+#matriz_dist, N = entrada('datasets/Tsp26t2.txt')   
+#ciclo, custo_ciclo = kopt(matriz_dist)
+#print(ciclo, custo_ciclo)    
+#x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+#plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+#plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
 #Tsp58t1.txt
-matriz_dist, N = entrada('datasets/Tsp58t1.txt')   
-ciclo, custo_ciclo = kopt(matriz_dist)
-print(ciclo, custo_ciclo)    
-x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
-plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
-plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+#matriz_dist, N = entrada('datasets/Tsp58t1.txt')   
+#ciclo, custo_ciclo = kopt(matriz_dist)
+#print(ciclo, custo_ciclo)    
+#x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+#plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+#plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
 #Tsp280t2.txt
 #Algumas vezes o plot não dar certo, em outras dar. Vou verificar pq só esse dar certo em alguns caso
-matriz_dist, N = entrada('datasets/Tsp280t2.txt')   
-ciclo, custo_ciclo = kopt(matriz_dist)
-print(ciclo, custo_ciclo)   
-x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
-plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
-plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+#matriz_dist, N = entrada('datasets/Tsp280t2.txt')   
+#ciclo, custo_ciclo = kopt(matriz_dist)
+#print(ciclo, custo_ciclo)   
+#x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+#plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+#plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
 #Tsp535t2.txt
-matriz_dist, N = entrada('datasets/Tsp535t2.txt')   
-ciclo, custo_ciclo = kopt(matriz_dist)
-print(ciclo, custo_ciclo)    
-x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
-plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
-plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo) 
+#matriz_dist, N = entrada('datasets/Tsp535t2.txt')   
+#ciclo, custo_ciclo = kopt(matriz_dist)
+#print(ciclo, custo_ciclo)    
+#x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+#plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+#plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo) 
     
 #tsp10t3.txt
-matriz_dist, N = entrada('datasets/tsp10t3.txt')   
-ciclo, custo_ciclo = kopt(matriz_dist)
-print(ciclo, custo_ciclo) 
-x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
-plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
-plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
+#matriz_dist, N = entrada('datasets/tsp10t3.txt')   
+#ciclo, custo_ciclo = kopt(matriz_dist)
+#print(ciclo, custo_ciclo) 
+#x_vertice, y_vertice, x_aresta, y_aresta, cities = location(matriz_dist, N)
+#plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
+#plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
-
-print("Fim")
-#matriz_dist = entrada('datasets/tsp10t3.txt')   
-#print(kopt(matriz_dist)) 
-#for i in range(0, 10000):
-#    matriz_dist = entrada('datasets/tsp10t3.txt')   
-#    prin = (kopt(matriz_dist)[1])  
-#    if(prin <=142):
-#        print(prin)
-#print("fim")
-#print(matriz_dist)     
+nomes = ['26t2', '58t1', '280t2', '535t2', '1379t2']
+i = 0
+with pd.ExcelWriter('ResultadosPAA_Novo.xlsx') as writer:
+    for dfr in dadosPlanilhas:        
+       dfr.to_excel(writer, sheet_name=nomes[i])
+       i = i + 1
+        
+print("Fim") 
 
  
         
