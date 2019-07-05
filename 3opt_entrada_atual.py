@@ -104,7 +104,7 @@ def kopt(matriz_distancias):
     custo_ciclo = custo_ver(ciclo, matriz_distancias)
     
     #Define o Numero de Tentativas
-    k_max = max(50, int(n/10))
+    k_max = max(10, int(n/5))
     
     #Repete para o numero de Tentativas
     for Tentativas in range(0, k_max):
@@ -336,7 +336,7 @@ for arq in Arquivos:
 
 nomes = ['26t2', '58t1', '280t2', '535t2', '1379t2']
 i = 0
-with pd.ExcelWriter('ResultadosPAA_Novo.xlsx') as writer:
+with pd.ExcelWriter('ResultadosPAA_10_n5.xlsx') as writer:
     for dfr in dadosPlanilhas:        
        dfr.to_excel(writer, sheet_name=nomes[i])
        i = i + 1
