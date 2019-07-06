@@ -104,7 +104,7 @@ def kopt(matriz_distancias):
     custo_ciclo = custo_ver(ciclo, matriz_distancias)
     
     #Define o Numero de Tentativas
-    k_max = max(10, int(n/5))
+    k_max = max(5000, int(n/5))
     
     #Repete para o numero de Tentativas
     for Tentativas in range(0, k_max):
@@ -265,7 +265,7 @@ def plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, cic
 
 #Etapa de Geração dos Saidas Medias
 dadosPlanilhas = []
-Arquivos = ['datasets/Tsp26t2.txt', 'datasets/Tsp58t1.txt', 'datasets/Tsp280t2.txt', 'datasets/Tsp535t2.txt', 'datasets/Tsp1379t2.txt']
+Arquivos = ['datasets/tsp10t3.txt', 'datasets/tsp12t2.txt']
 
 for arq in Arquivos:
     matriz_dist, N = entrada(arq)
@@ -334,9 +334,9 @@ for arq in Arquivos:
 #plot_ciclo_inicial(x_vertice, y_vertice, x_aresta, y_aresta, cities, N)
 #plot_melhor_caminho(x_vertice, y_vertice, x_aresta, y_aresta, cities, N, ciclo)
 
-nomes = ['26t2', '58t1', '280t2', '535t2', '1379t2']
+nomes = ['10t3', '12t2']
 i = 0
-with pd.ExcelWriter('ResultadosPAA_10_n5.xlsx') as writer:
+with pd.ExcelWriter('ResultadosPAA_toy_5000.xlsx') as writer:
     for dfr in dadosPlanilhas:        
        dfr.to_excel(writer, sheet_name=nomes[i])
        i = i + 1
