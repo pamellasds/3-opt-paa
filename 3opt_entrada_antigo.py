@@ -118,9 +118,6 @@ def kopt(matriz_distancias):
         a = random.choice(range(0, n))
         i_a = copia_ciclo.index(a)
 
-        #print(a, i_a)
-        #print(copia_ciclo)
-
         #Acha as cidades adjacentes de A
         suc_a = copia_ciclo[(i_a + 1)%len(copia_ciclo)]
         ant_a = copia_ciclo[(i_a -1)%len(copia_ciclo)]
@@ -131,15 +128,10 @@ def kopt(matriz_distancias):
         copia_ciclo.pop(copia_ciclo.index(ant_a))
         copia_ciclo.pop(copia_ciclo.index(a))
 
-        #print(copia_ciclo)
-
-
         #Achar o b e os adjacentes dele
 
         b = random.choice(copia_ciclo)
         i_b = copia_ciclo.index(b)
-
-        #print(b, i_b)
 
         suc_b = copia_ciclo[(i_b + 1)%len(copia_ciclo)]
         ant_b = copia_ciclo[(i_b -1)%len(copia_ciclo)]
@@ -150,10 +142,8 @@ def kopt(matriz_distancias):
         copia_ciclo.pop(copia_ciclo.index(ant_b))
         copia_ciclo.pop(copia_ciclo.index(b))
 
-        #print(copia_ciclo)
 
         c = random.choice(copia_ciclo)
-        #print(c)  
         i_c = ciclo.tolist().index(c)
 
 
@@ -181,17 +171,10 @@ def kopt(matriz_distancias):
         y = ciclo[(i_b+1)%n]
         z = ciclo[(i_c+1)%n]
 
-        #print(a,x,b,y,c,z)
-        #print(a,b,c,d,e,f)
-
         #PLotar Arestas AX BY CZ
 
         #Faz as Permutacoes
 
-        #print(ciclo[:i_a + 1].shape)
-        #print(ciclo[i_x : i_b + 1].shape)
-        #print(ciclo[i_c : i_y -1 : -1].shape)
-        #print(ciclo[i_z:].shape)
  
         copia_ciclo = ciclo.tolist()
 

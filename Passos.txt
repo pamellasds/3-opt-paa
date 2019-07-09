@@ -9,12 +9,13 @@
     #Calcula o custo do ciclo inicial
     #Define o Numero de Tentativas
     #Para cada tentativa aplica:
-        #Selecionar 3 arestas para serem analisadas:
-            #Seleciona 3 vertices, não adjacentes(no ciclo),  aleatorios do grafo e chama eles de A,B,C
-            #Rearanja os 3 vertices de forma que A é o primeiro vertice(dos 3) a ser visitado no ciclo atual, B é o segundoo e C o terceiro
-            #Calcula os vertices X,Y,Z
-                #X é vertice sucesso, no ciclo atual, de A, Y é o sucesso de B e Z é sucesso de C
-            #As arestas AX,BY,CZ são enfim selecionadas
+        #Para X combinações de Arestas
+            #Selecionar as 3 arestas da iteracao para serem analisadas:
+                #Seleciona 3 vertices, não adjacentes(no ciclo),  aleatorios do grafo e chama eles de A,B,C
+                #Rearanja os 3 vertices de forma que A é o primeiro vertice(dos 3) a ser visitado no ciclo atual, B é o segundoo e C o terceiro
+                #Calcula os vertices X,Y,Z
+                    #X é vertice sucesso, no ciclo atual, de A, Y é o sucesso de B e Z é sucesso de C
+                #As arestas AX,BY,CZ são enfim selecionadas
         #A partir dessas arestas são feitas as outras 7 combinações possiveis do ciclo.
         #O melhor ciclo é selecionado e salvo para a proxima tentativa
         #Fim da tentativa
